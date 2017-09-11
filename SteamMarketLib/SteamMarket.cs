@@ -62,7 +62,7 @@ namespace SteamMarketLib
             {
                 TimeSpan throttleTime = (lastApiRequest.AddSeconds(secondsBetweenRequests)) - DateTime.Now;
 
-                if (throttleTime.TotalSeconds > 0)
+                if (throttleTime.TotalMilliseconds > 0)
                     Thread.Sleep((int)throttleTime.TotalMilliseconds);
 
                 while (str == null)
@@ -80,7 +80,7 @@ namespace SteamMarketLib
                         }
                         else
                         {
-                            throw ex;
+                            throw ex; // Give up
                         }
                     }
 
