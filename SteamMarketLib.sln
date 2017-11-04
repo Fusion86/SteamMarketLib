@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamMarketLib", "SteamMarketLib\SteamMarketLib.csproj", "{E3E9B9D5-7E53-403A-9994-2AE7DB6879A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamMarketLib", "SteamMarketLib\SteamMarketLib.csproj", "{A5B9FDF5-D909-4A53-BAE7-AC232D43F3D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E3E9B9D5-7E53-403A-9994-2AE7DB6879A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3E9B9D5-7E53-403A-9994-2AE7DB6879A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3E9B9D5-7E53-403A-9994-2AE7DB6879A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3E9B9D5-7E53-403A-9994-2AE7DB6879A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B9FDF5-D909-4A53-BAE7-AC232D43F3D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B9FDF5-D909-4A53-BAE7-AC232D43F3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B9FDF5-D909-4A53-BAE7-AC232D43F3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B9FDF5-D909-4A53-BAE7-AC232D43F3D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {097B6130-6538-4A8B-AF32-E6EEE3B84384}
+		SolutionGuid = {35D00E3F-991B-436F-AADD-6F6FD3F2EA67}
 	EndGlobalSection
 EndGlobal

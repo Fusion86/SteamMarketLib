@@ -10,14 +10,13 @@ namespace SteamMarketLib
 {
     public static class SteamMarket
     {
-        // Settings
-        static int secondsBetweenRequests = 3; // in seconds
-        static int waitTimeAfterError = 15; // in seconds
-        static int maxRetries = -1; // -1 is pretty much infinite
+        public static int SecondsBetweenRequests = 3; // in seconds
+        public static int WaitTimeAfterError = 15; // in seconds
+        public static int MaxRetries = -1; // -1 is pretty much infinite
 
-        static DateTime lastApiRequest = new DateTime();
+        private static DateTime m_lastApiRequest = new DateTime();
 
-        public static string GetUrl(int appID, string encodedName)
+        public static string GetUrl(int appId, string encodedName)
         {
             Currency? currency = null;
 
@@ -26,9 +25,11 @@ namespace SteamMarketLib
                 case "USD":
                     currency = Currency.USD;
                     break;
+
                 case "GBP":
                     currency = Currency.GBP;
                     break;
+
                 case "EUR":
                     currency = Currency.EUR;
                     break;
@@ -38,29 +39,29 @@ namespace SteamMarketLib
                 throw new Exception("Incompatible culture!");
 
             return String.Concat(
-                @"https://steamcommunity.com/market/priceoverview/",
-                $"?appid={appID}",
-                $"&currency={(int)currency.Value}",
-                $"&market_hash_name={encodedName}"
+                    @"https://steamcommunity.com/market/priceoverview/",
+                    $"?appid={appId}",
+                    $"&currency={(int)currency.Value}",
+                    $"&market_hash_name={encodedName}"
                 );
         }
 
-        public async static Task<SteamItemPriceData> GetPrice(int appID, string displayName)
+        public async static Task<SteamItemPriceData> GetPrice(int appId, string displayName)
         {
             string encodedName = WebUtility.UrlEncode(displayName);
-            string url = GetUrl(appID, encodedName);
+            string url = GetUrl(appId, encodedName);
             string json = await GetStringFromUrl(url);
             return JsonConvert.DeserializeObject<SteamItemPriceData>(json);
         }
 
-        static async Task<string> GetStringFromUrl(string url)
+        private static async Task<string> GetStringFromUrl(string url)
         {
             int retries = 0;
             string str = null;
 
             using (HttpClient client = new HttpClient())
             {
-                TimeSpan throttleTime = (lastApiRequest.AddSeconds(secondsBetweenRequests)) - DateTime.Now;
+                TimeSpan throttleTime = (m_lastApiRequest.AddSeconds(SecondsBetweenRequests)) - DateTime.Now;
 
                 if (throttleTime.TotalMilliseconds > 0)
                     Thread.Sleep((int)throttleTime.TotalMilliseconds);
@@ -73,9 +74,9 @@ namespace SteamMarketLib
                     }
                     catch (WebException ex)
                     {
-                        if (retries < (uint)maxRetries)
+                        if (retries < (uint)MaxRetries) // uint cast to convert -1 to a large (almost infinite) number
                         {
-                            await Task.Delay(waitTimeAfterError * 1000);
+                            await Task.Delay(WaitTimeAfterError * 1000);
                             retries++;
                         }
                         else
@@ -84,7 +85,7 @@ namespace SteamMarketLib
                         }
                     }
 
-                    lastApiRequest = DateTime.Now;
+                    m_lastApiRequest = DateTime.Now;
                 }
             }
 
