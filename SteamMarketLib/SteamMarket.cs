@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -10,46 +9,26 @@ namespace SteamMarketLib
 {
     public static class SteamMarket
     {
-        public static int SecondsBetweenRequests = 3; // in seconds
+        public static int MinSecondsBetweenRequests = 3;
         public static int WaitTimeAfterError = 15; // in seconds
         public static int MaxRetries = -1; // -1 is pretty much infinite
 
         private static DateTime m_lastApiRequest = new DateTime();
 
-        public static string GetUrl(int appId, string encodedName)
+        public static string GetUrl(int appId, string encodedName, Currency currency)
         {
-            Currency? currency = null;
-
-            switch (RegionInfo.CurrentRegion.ISOCurrencySymbol)
-            {
-                case "USD":
-                    currency = Currency.USD;
-                    break;
-
-                case "GBP":
-                    currency = Currency.GBP;
-                    break;
-
-                case "EUR":
-                    currency = Currency.EUR;
-                    break;
-            }
-
-            if (!currency.HasValue)
-                throw new Exception("Incompatible culture!");
-
             return String.Concat(
                     @"https://steamcommunity.com/market/priceoverview/",
                     $"?appid={appId}",
-                    $"&currency={(int)currency.Value}",
+                    $"&currency={(int)currency}",
                     $"&market_hash_name={encodedName}"
                 );
         }
 
-        public async static Task<SteamItemPriceData> GetPrice(int appId, string displayName)
+        public static async Task<SteamItemPriceData> GetPrice(int appId, string displayName, Currency currency = Currency.USD)
         {
             string encodedName = WebUtility.UrlEncode(displayName);
-            string url = GetUrl(appId, encodedName);
+            string url = GetUrl(appId, encodedName, currency);
             string json = await GetStringFromUrl(url);
             return JsonConvert.DeserializeObject<SteamItemPriceData>(json);
         }
@@ -61,7 +40,7 @@ namespace SteamMarketLib
 
             using (HttpClient client = new HttpClient())
             {
-                TimeSpan throttleTime = (m_lastApiRequest.AddSeconds(SecondsBetweenRequests)) - DateTime.Now;
+                TimeSpan throttleTime = (m_lastApiRequest.AddSeconds(MinSecondsBetweenRequests)) - DateTime.Now;
 
                 if (throttleTime.TotalMilliseconds > 0)
                     Thread.Sleep((int)throttleTime.TotalMilliseconds);

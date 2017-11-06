@@ -5,16 +5,10 @@ Meh
 
 ## Usage
 
-### Set currency
-
-```csharp
-Thread.CurrentThread.CurrentCulture = new CultureInfo("nl-NL");
-```
-
 ### Get price for object
 
 ```csharp
-SteamItemPriceData price = await SteamMarket.GetPrice(578080, "GAMESCOM INVITATIONAL CRATE");
+SteamItemPriceData price = await SteamMarket.GetPrice(578080, "GAMESCOM INVITATIONAL CRATE", Currency.EUR); // Currency is optional
 ```
 
 or 
